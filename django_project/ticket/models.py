@@ -23,3 +23,5 @@ class Ticket(models.Model):
     severity = models.CharField(max_length=5, choices=(('A', 'A'), ('B', 'B')), default='B')
     contact_mode = models.CharField(max_length=20, choices=(('Phone', 'Phone'), ('Email', 'Email')))
     is_assigned_to_engineer = models.BooleanField(default=False)
+    resolution_steps = models.TextField()
+    

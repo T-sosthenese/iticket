@@ -9,3 +9,8 @@ class CreateTicketForm(forms.ModelForm):
             'ticket_description',
             'contact_mode'
         ]
+
+class AssignTicketForm(models.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ['engineer']
