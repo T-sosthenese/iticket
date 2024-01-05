@@ -10,7 +10,7 @@ class CreateTicketForm(forms.ModelForm):
             'contact_mode'
         ]
 
-class AssignTicketForm(models.ModelForm):
+class AssignTicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ['engineer']

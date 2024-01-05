@@ -35,11 +35,13 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Manage job applications</a>
                     </li>
+                    {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{request.user.email}}</a>
                     </li>
                 </ul>
                 <a href="{% url 'logout' %}" class="btn btn-warning me-2">Logout</a>
+                {% endif %}
             </div>
         </div>
     </nav>

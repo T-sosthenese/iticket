@@ -50,7 +50,7 @@ def assign_ticket(request, ticket_id):
             messages.success(request, 'Ticket has been assigned to {}'.format(var.engineer))
             return redirect('ticket-queue')
         else:
-            messages.warning(request. 'Something went wrong. Check form data')
+            messages.warning(request, 'Something went wrong. Check form data')
             return redirect('assign-ticket') # Revisiting this later
     else:
         form = AssignTicketForm()
