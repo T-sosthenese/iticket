@@ -6,8 +6,7 @@ class CreateTicketForm(forms.ModelForm):
         model = Ticket
         fields = [
             'ticket_title',
-            'ticket_description',
-            'contact_mode'
+            'ticket_description'
         ]
 
 class AssignTicketForm(forms.ModelForm):
