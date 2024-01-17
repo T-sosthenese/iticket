@@ -32,7 +32,6 @@
                             Tickets
                         </a>
                         {% if request.user.is_authenticated %}
-                        {% if request.user.is_customer %}
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'customer-active-tickets' %}">Active tickets</a>
                             </li>
@@ -42,17 +41,6 @@
                             </li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
-                        {% elif request.user.is_engineer %}
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'engineer-active-tickets' %}">Active tickets</a>
-                            </li>
-                            <li><a class="dropdown-item" href="#">Resolved tickets</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                        {% endif %}
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" tabindex="-1"
