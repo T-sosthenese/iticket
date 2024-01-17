@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 import random
 import string
 
 from .forms import CreateTicketForm, AssignTicketForm
 from .models import Ticket
+
+User = get_user_model()
 
 # Creating a ticket
 def create_ticket(request):
@@ -43,6 +46,18 @@ def customer_resolved_tickets(request):
     context = {'tickets':tickets}
     return render(request, 'ticket/customer_resolved_tickets.html', context)
 
+# Engineer can see all active tickets assigned to them
+def engineer_active_tickets(request):
+    tickets = Ticket.objects.filter(engineer=request.user, is_resolved=False).order_by('-created_on')
+    context = {'tickets':tickets}
+    return render(request, 'ticket/engineer_active_tickets.html', context)
+
+# Engineer can see all their resolved tickets
+def engineer_resolved_tickets(request):
+    tickets = Ticket.objects.filter(engineer=request.user, is_resolved=True).order_by('-created_on')
+    context = {'tickets':tickets}
+    return render(request, 'ticket/engineer_resolved_tickets.html', context)
+
 # Assign ticket to engineers
 def assign_ticket(request, ticket_id):
     ticket = Ticket.objects.get(ticket_id=ticket_id)
@@ -51,15 +66,17 @@ def assign_ticket(request, ticket_id):
         if form.is_valid():
             var = form.save(commit=False)
             var.is_assigned_to_engineer = True
+            var.status = 'Active'
             var.save()
             messages.success(request, 'Ticket has been assigned to {}'.format(var.engineer))
             return redirect('ticket-queue')
         else:
             messages.warning(request, 'Something went wrong. Check form data')
-            return redirect('assign-ticket') # Revisiting this later
+            return redirect('assign-ticket')
     else:
-        form = AssignTicketForm()
-        context = {'form':form}
+        form = AssignTicketForm(instance=ticket)
+        form.fields['engineer'].queryset = User.objects.filter(is_engineer=True)
+        context = {'form':form, 'ticket':ticket}
         return render(request, 'ticket/assign_ticket.html', context)
 
 # Ticket details
