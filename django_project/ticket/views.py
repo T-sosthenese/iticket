@@ -96,3 +96,15 @@ def ticket_queue(request):
     tickets = Ticket.objects.filter(is_assigned_to_engineer=False)
     context = {'tickets':tickets}
     return render(request, 'ticket/ticket_queue.html', context)
+
+
+def resolve_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(ticket_id=ticket_id)
+    if request.method == 'POST':
+        rs = request.POST.get('rs')
+        ticket.resolution_steps = rs
+        ticket.is_resolved = True
+        ticket.status = 'Resolved'
+        ticket.save()
+        messages.success(request, 'Your ticket has been resolved successfully.')
+        return redirect('dashboard')

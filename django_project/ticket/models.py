@@ -22,5 +22,5 @@ class Ticket(models.Model):
     is_resolved = models.BooleanField(default=False)
     severity = models.CharField(max_length=5, choices=(('A', 'A'), ('B', 'B')), default='B')
     is_assigned_to_engineer = models.BooleanField(default=False)
-    resolution_steps = models.TextField()
+    resolution_steps = models.TextField(blank=True, null=True)
     

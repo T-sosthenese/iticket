@@ -26,22 +26,40 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
+                    {% if request.user.is_authenticated %}
+                    {% if request.user.is_customer %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Tickets
                         </a>
-                        {% if request.user.is_authenticated %}
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'customer-active-tickets' %}">Active tickets</a>
                             </li>
-                            <li><a class="dropdown-item" href="#">Resolved tickets</a></li>
+                            <li><a class="dropdown-item" href="{% url 'customer-resolved-tickets' %}">Resolved tickets</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
                     </li>
+                    {% elif request.user.is_engineer %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Tickets
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'engineer-active-tickets' %}">Active tickets</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'engineer-resolved-tickets' %}">Resolved tickets</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" tabindex="-1"
                             aria-disabled="true">{{request.user.email}}</a>
